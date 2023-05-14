@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#navbar {
+  background-color: #f9ca24;
+}
+#content {
+  background-color: #f6e58d;
+}
+#heading,
+#navText {
+  color: #494866;
+}
+#paragraph {
+  color: #494866;
+}
