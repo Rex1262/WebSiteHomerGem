@@ -1,14 +1,14 @@
-import img from "/Homer.svg";
+import img from "/homer.png";
 
 function NavBar() {
   return (
-    <nav id='navbar'>
-      <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
-        <a href='#' className='flex items-center'>
-          <img src={img} className='h-24 mr-3' alt='BART Logo' />
+    <nav id="navbar">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="#" className="flex items-center">
+          <img src={img} className="h-24 mr-3" alt="BART Logo" />
           <span
-            id='navText'
-            className='self-center text-5xl font-semibold whitespace-nowrap'
+            id="navText"
+            className="self-center text-5xl font-semibold whitespace-nowrap"
           >
             Homer Gem
           </span>

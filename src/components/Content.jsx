@@ -1,27 +1,37 @@
-import img from "/Homer.svg";
+import img from "/homer.png";
 
 function Content() {
   return (
-    <div id='content' className='grid grid-cols-2  pt-18'>
-      <div className='p-4'>
-        <img className='h-fit' src={img} alt='Logo' />
+    <div id="content" className="grid grid-cols-2  pt-18">
+      <div className="p-4">
+        <img className="h-fit" src={img} alt="Logo" />
       </div>
-      <div className='p-4 h-fit ml-10'>
-        <p id='heading' className='font-bold text-3xl mt-16'>
+      <div className="p-4 h-fit ml-10">
+        <p id="heading" className="font-bold text-3xl mt-16">
           INTRODUCTION
         </p>
-        <p id='paragraph' className='mt-5 w-96 text-lg'>
-          Homer Gem, with the symbol "HG," is a new crypto token that offers a
-          unique value proposition to its users. The token is named after the
-          ancient Greek poet Homer, who was famous for his epic poems, including
-          the Odyssey and the Iliad, which often dealt with themes of prophecy,
-          fate, and divination. "Homer Gem" is designed to be a token of someone
-          who predicted the future, and it aims to provide a platform for users
-          to share their insights, predictions, and expertise in various fields,
-          such as finance, politics, and technology, among others. With its
-          innovative approach to tokenization and its focus on foresight and
-          knowledge, "Homer Gem" has the potential to become a game-changer in
-          the world of crypto and beyond.
+        <p id="paragraph" className="mt-5 w-96 text-lg">
+          The Homer Gem is decentralized token is a cryptocurrency created in
+          honor of one of the most popular animated series in history - The
+          Simpsons. This token was created so that fans of the animated series
+          could exchange them among themselves as collectibles and investments.
+          <br />
+          The Homer token was created on the BSC blockchain platform and has a
+          unique set of properties that make it special. First, each token has a
+          unique design that depicts characters from The Simpsons. Secondly, the
+          Homer token is decentralized, which means that it is not controlled by
+          any central authority, but is managed by the community of its holders.
+          <br />
+          Holders of the Homer token can use it to buy and sell other
+          cryptocurrencies, goods and services, as well as to participate in
+          voting on issues related to the development of the project. In
+          addition, the Homer Gem token can be used as an investment, as its
+          value can change depending on the demand for it.
+          <br />
+          In general, the Homer token is a unique project that brings together
+          fans of the animated series The Simpsons and crypto investors, giving
+          them the opportunity to enjoy collecting tokens and at the same time
+          earn on their growth in value.
         </p>
       </div>
     </div>
