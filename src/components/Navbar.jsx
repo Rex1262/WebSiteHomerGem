@@ -8,7 +8,7 @@ function NavBar() {
           <img src={img} className="h-24 mr-3" alt="BART Logo" />
           <span
             id="navText"
-            className="self-center text-5xl font-semibold whitespace-nowrap"
+            className="self-center text-2xl sm:text-5xl font-semibold whitespace-nowrap"
           >
             Homer Gem
           </span>
