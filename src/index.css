@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  background-color: #f6e58d;
+}
 #navbar {
   background-color: #f9ca24;
 }
-#content {
-  background-color: #f6e58d;
-}
+
 #heading,
 #navText {
   color: #494866;
@@ -17,7 +19,7 @@
   font-size: clamp(14px, 2vw + 10px, 20px);
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 1024px) {
   #content {
     display: flex;
     align-items: center;

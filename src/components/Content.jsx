@@ -1,4 +1,4 @@
-import img from "/Homer.svg";
+import img from "/homer.svg";
 
 function Content() {
   return (
@@ -10,7 +10,7 @@ function Content() {
         <p id="heading" className="font-bold text-3xl mt-16">
           INTRODUCTION
         </p>
-        <div id="paragraph" className="mt-5 w-96 text-lg">
+        <div id="paragraph" className="mt-5 w-full max-w-[560px] text-lg">
           <p>
             The Homer Gem is decentralized token is a cryptocurrency created in
             honor of one of the most popular animated series in history - The
