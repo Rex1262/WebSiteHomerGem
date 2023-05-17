@@ -1,4 +1,4 @@
-import img from "/homer.svg";
+import img from "/Homer.svg";
 
 function Content() {
   return (
