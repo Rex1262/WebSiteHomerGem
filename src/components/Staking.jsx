@@ -20,9 +20,9 @@ const Staking = () => {
 
   const homerGemTestNet = "0x9478039D495E7C03350292D5174757A59a2802Ef";
   const homerGemMainNet = "0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488";
-  const mainnetCahinID = 56;
+  const mainnetChainID = 56;
   const testnetChainId = 97;
-  const staking = false ;
+  const staking = false;
   const [formValues, setFormValues] = useState({
     stakingPrice: "",
     duration: "",
@@ -63,7 +63,6 @@ const Staking = () => {
     }
 
     // Read the values of storage slots
-   
 
     console.log(homergem);
     const _balance = await homergem.balanceOf(userAddress);
@@ -90,8 +89,10 @@ const Staking = () => {
     // Get the chain ID
     const network = await _provider.getNetwork();
     const _chainID = network.chainId;
-    if (_chainID != mainnetCahinID) {
+    if (_chainID != mainnetChainID) {
       toast.error("Please connect your wallet with Binance Smart Chain");
+      setHomergemLoading(false);
+      setStakesLoading(false);
     } else {
       setAccount(accounts[0]);
       loadContract(signer, accounts[0], _provider);
@@ -108,11 +109,13 @@ const Staking = () => {
   };
 
   // getYourStakes Function
+
   const getYourStakes = async () => {
     let stakeArry = [];
-    if(staking == false){
-       toast.error("Staking is not allowed Yet"); 
-    }else{
+    if (staking == false) {
+      toast.error("Staking is not allowed Yet");
+      setStakesLoading(false);
+    } else {
       if (!account) {
         toast.error("Please connect your wallet with Binance Smart Chain");
       } else {
@@ -133,7 +136,7 @@ const Staking = () => {
               const stakedAmount = Number(stakedAmountInEth);
               const rewardPercentage = Number(userStake.rewardPercentage) / 100;
               console.log(_stakingId);
-  
+
               stakeArry.push({
                 _stakingId,
                 stakedAmount,
@@ -141,7 +144,7 @@ const Staking = () => {
                 minutes,
               });
             }
-  
+
             console.log(userStakes);
           }
           setUserStakes(stakeArry);
@@ -149,7 +152,7 @@ const Staking = () => {
           // console.log(userStake);
           setTransactionState(false);
           console.log("In the try");
-  
+
           setStakesLoading(false);
         } catch (error) {
           console.log("In the catch");
@@ -159,19 +162,17 @@ const Staking = () => {
         }
       }
     }
-
-
   };
-
   // stake function
 
   const stakeToken = async (amount, days) => {
-     if(staking == false){
-        toast.error("Staking is not allowed yet");
-     }
-     else{
+    if (staking == false) {
+      toast.error("Staking is not allowed yet");
+      setHomergemLoading(false);
+    } else {
       if (!account) {
         toast.error("Please connect your wallet with Binance Smart Chain");
+        setHomergemLoading(false);
       } else {
         try {
           setTransactionState(true);
@@ -185,14 +186,14 @@ const Staking = () => {
           console.log("In stake try");
           setHomergemLoading(false);
         } catch (error) {
+          setHomergemLoading(false);
           setTransactionState(false);
           toast.error("Transaction Error");
           // console.log(error.error.data.message);
           // let message = await error.data.message.toString();
         }
       }
-     }
-    
+    }
   };
 
   // unstakeFunction
@@ -228,6 +229,7 @@ const Staking = () => {
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       toast.error("Please fill in all the required fields.");
+      setHomergemLoading(false);
       return;
     }
 
@@ -253,11 +255,15 @@ const Staking = () => {
       <div className="bg-[url('/staking-bg.jpg')] h-full lg:min-h-[95vh]  bg-cover bg-no-repeat bg-top">
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between py-5 px-2 sm:px-5 bg-[#f2df7d]/50">
           {account ? (
-            <button className="border  border-transparent bg-[#1E202B]  font-semibold text-[#F9CA25] hover:text-[#141414] hover:border-[#1E202B] hover:bg-transparent rounded-full px-4 py-2">
+            <button
+              type="button"
+              className="border  border-transparent bg-[#1E202B]  font-semibold text-[#F9CA25] hover:text-[#141414] hover:border-[#1E202B] hover:bg-transparent rounded-full px-4 py-2"
+            >
               {account.slice(0, 7) + "......" + account.slice(36, 42)}
             </button>
           ) : (
             <button
+              type="button"
               className="border  border-transparent bg-[#1E202B]  font-semibold text-[#f6e58d] hover:text-[#141414] hover:border-[#1E202B] hover:bg-transparent rounded-full px-4 py-2"
               onClick={web3Handler}
             >
@@ -355,6 +361,7 @@ const Staking = () => {
                     <div className="mb-4">
                       {homergemLoading ? (
                         <button
+                          type="button"
                           className="w-full flex items-center gap-2 px-3 py-3 justify-center rounded-md bg-[#f6e58d] focus:bg-[#f6e58d] focus:outline-none border border-[#f6e58d]"
                           disabled={true}
                         >
@@ -369,11 +376,12 @@ const Staking = () => {
                         </button>
                       ) : (
                         <button
+                          type="button"
                           onClick={() => {
-                            // setHomergemLoading(true);
+                            setHomergemLoading(true);
                             handleStaking();
                           }}
-                          className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md  bg-[#f6e58d]  focus:bg-[#f6e58d] focus:outline-none hover:bg-transparent border border-[#f6e58d] hover:text-[#f6e58d]"
+                          className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md  bg-[#f6e58d]  focus:bg-[#f6e58d] focus:text-[#141414] focus:outline-none  border border-[#f6e58d] hover:bg-[#141414] hover:text-[#f6e58d]"
                         >
                           Stake Your HomerGem
                         </button>
@@ -384,6 +392,7 @@ const Staking = () => {
                       </h2>
                       {stakesLoading ? (
                         <button
+                          type="button"
                           className="w-full flex items-center gap-2 px-3 py-3 justify-center  rounded-md bg-[#f6e58d] focus:bg-[#f6e58d] focus:outline-none  border border-[#f6e58d]"
                           disabled={true}
                         >
@@ -398,9 +407,10 @@ const Staking = () => {
                         </button>
                       ) : (
                         <button
-                          className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md bg-[#f6e58d] focus:bg-[#f6e58d] focus:outline-none hover:bg-transparent border border-[#f6e58d] hover:text-[#f6e58d]"
+                          type="button"
+                          className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md  bg-[#f6e58d]  focus:bg-[#f6e58d] focus:text-[#141414] focus:outline-none  border border-[#f6e58d] hover:bg-[#141414] hover:text-[#f6e58d]"
                           onClick={() => {
-                            // setStakesLoading(true);
+                            setStakesLoading(true);
                             getYourStakes();
                           }}
                         >
