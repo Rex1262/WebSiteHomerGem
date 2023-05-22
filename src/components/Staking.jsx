@@ -22,7 +22,7 @@ const Staking = () => {
   const homerGemMainNet = "0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488";
   const mainnetCahinID = 56;
   const testnetChainId = 97;
-
+  const staking = false ;
   const [formValues, setFormValues] = useState({
     stakingPrice: "",
     duration: "",
@@ -110,77 +110,89 @@ const Staking = () => {
   // getYourStakes Function
   const getYourStakes = async () => {
     let stakeArry = [];
-    if (!account) {
-      toast.error("Please connect your wallet with Binance Smart Chain");
-    } else {
-      try {
-        setTransactionState(true);
-        for (let i = 1; i <= stakingId; i++) {
-          const userStake = await homerGem.staked(i);
-          const staker = userStake.stakerAddress;
-          if (staker.toLowerCase() == account.toLowerCase()) {
-            console.log("Yes youre are staker");
-            const stakeEndTime = Number(userStake.stakingEnd);
-            const date = new Date(stakeEndTime * 1000);
-            const minutes = date.getMinutes();
-            const _stakingId = i.toString();
-            const stakedAmountInEth = ethers.utils.formatEther(
-              userStake.stakedAmount
-            );
-            const stakedAmount = Number(stakedAmountInEth);
-            const rewardPercentage = Number(userStake.rewardPercentage) / 100;
-            console.log(_stakingId);
-
-            stakeArry.push({
-              _stakingId,
-              stakedAmount,
-              rewardPercentage,
-              minutes,
-            });
+    if(staking == false){
+       toast.error("Staking is not allowed Yet"); 
+    }else{
+      if (!account) {
+        toast.error("Please connect your wallet with Binance Smart Chain");
+      } else {
+        try {
+          setTransactionState(true);
+          for (let i = 1; i <= stakingId; i++) {
+            const userStake = await homerGem.staked(i);
+            const staker = userStake.stakerAddress;
+            if (staker.toLowerCase() == account.toLowerCase()) {
+              console.log("Yes youre are staker");
+              const stakeEndTime = Number(userStake.stakingEnd);
+              const date = new Date(stakeEndTime * 1000);
+              const minutes = date.getMinutes();
+              const _stakingId = i.toString();
+              const stakedAmountInEth = ethers.utils.formatEther(
+                userStake.stakedAmount
+              );
+              const stakedAmount = Number(stakedAmountInEth);
+              const rewardPercentage = Number(userStake.rewardPercentage) / 100;
+              console.log(_stakingId);
+  
+              stakeArry.push({
+                _stakingId,
+                stakedAmount,
+                rewardPercentage,
+                minutes,
+              });
+            }
+  
+            console.log(userStakes);
           }
-
-          console.log(userStakes);
+          setUserStakes(stakeArry);
+          // const userStake = await homerGem.staked('1')
+          // console.log(userStake);
+          setTransactionState(false);
+          console.log("In the try");
+  
+          setStakesLoading(false);
+        } catch (error) {
+          console.log("In the catch");
+          setTransactionState(false);
+          // console.log(error.data.message);
+          // toast.error(error.data);
         }
-        setUserStakes(stakeArry);
-        // const userStake = await homerGem.staked('1')
-        // console.log(userStake);
-        setTransactionState(false);
-        console.log("In the try");
-
-        setStakesLoading(false);
-      } catch (error) {
-        console.log("In the catch");
-        setTransactionState(false);
-        // console.log(error.data.message);
-        // toast.error(error.data);
       }
     }
+
+
   };
 
   // stake function
 
   const stakeToken = async (amount, days) => {
-    if (!account) {
-      toast.error("Please connect your wallet with Binance Smart Chain");
-    } else {
-      try {
-        setTransactionState(true);
-        await (await homerGem.approve(homerGemTestNet, amount)).wait();
-        await (await homerGem.stakeToken(amount, days)).wait();
-        setTransactionState(false);
-        const stakedAmount = ethers.utils.formatEther(amount);
-        toast.success(
-          `Congrats you succussfully staked ${stakedAmount} HomerGem`
-        );
-        console.log("In stake try");
-        setHomergemLoading(false);
-      } catch (error) {
-        setTransactionState(false);
-        toast.error("Transaction Error");
-        // console.log(error.error.data.message);
-        // let message = await error.data.message.toString();
+     if(staking == false){
+        toast.error("Staking is not allowed yet");
+     }
+     else{
+      if (!account) {
+        toast.error("Please connect your wallet with Binance Smart Chain");
+      } else {
+        try {
+          setTransactionState(true);
+          await (await homerGem.approve(homerGemTestNet, amount)).wait();
+          await (await homerGem.stakeToken(amount, days)).wait();
+          setTransactionState(false);
+          const stakedAmount = ethers.utils.formatEther(amount);
+          toast.success(
+            `Congrats you succussfully staked ${stakedAmount} HomerGem`
+          );
+          console.log("In stake try");
+          setHomergemLoading(false);
+        } catch (error) {
+          setTransactionState(false);
+          toast.error("Transaction Error");
+          // console.log(error.error.data.message);
+          // let message = await error.data.message.toString();
+        }
       }
-    }
+     }
+    
   };
 
   // unstakeFunction
@@ -293,7 +305,7 @@ const Staking = () => {
                   <h2 className="text-xl font-semibold mb-4">
                     Staking To Earn Rewards
                   </h2>
-                  <form>
+                  <div>
                     <div className="mb-4">
                       <label
                         htmlFor="staking-price"
@@ -358,7 +370,7 @@ const Staking = () => {
                       ) : (
                         <button
                           onClick={() => {
-                            setHomergemLoading(true);
+                            // setHomergemLoading(true);
                             handleStaking();
                           }}
                           className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md  bg-[#f6e58d]  focus:bg-[#f6e58d] focus:outline-none hover:bg-transparent border border-[#f6e58d] hover:text-[#f6e58d]"
@@ -388,7 +400,7 @@ const Staking = () => {
                         <button
                           className="w-full px-3 py-3 text-[#141414] font-semibold rounded-md bg-[#f6e58d] focus:bg-[#f6e58d] focus:outline-none hover:bg-transparent border border-[#f6e58d] hover:text-[#f6e58d]"
                           onClick={() => {
-                            setStakesLoading(true);
+                            // setStakesLoading(true);
                             getYourStakes();
                           }}
                         >
@@ -396,7 +408,7 @@ const Staking = () => {
                         </button>
                       )}
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
