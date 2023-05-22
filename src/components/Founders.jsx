@@ -11,20 +11,20 @@ const Founders = () => {
         <h1 className="text-[#494866] text-4xl font-bold text-center mt-5 mb-10">
           FOUNDERS
         </h1>
-        <div className="flex gap-8 lg:gap-4 flex-col margin-0 lg:flex-row">
-          <div className="w-full lg:w-1/4">
+        <div className="flex justify-center items-center gap-8 lg:gap-4 flex-col margin-0 lg:flex-row">
+          <div className="w-2/4 lg:w-1/4">
             <img className="h-fit rounded-lg" src={founder1} alt="Logo" />
           </div>
 
-          <div className="w-full lg:w-1/4">
+          <div className="w-2/4 lg:w-1/4">
             <img className="h-fit rounded-lg" src={founder2} alt="Logo" />
           </div>
 
-          <div className="w-full lg:w-1/4">
+          <div className="w-2/4 lg:w-1/4">
             <img className="h-fit rounded-lg" src={founder3} alt="Logo" />
           </div>
 
-          <div className="w-full lg:w-1/4">
+          <div className="w-2/4 lg:w-1/4">
             <img className="h-fit rounded-lg" src={founder4} alt="Logo" />
           </div>
         </div>

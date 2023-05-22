@@ -2,6 +2,7 @@ import React from "react";
 import telegram from "/telegram.png";
 import discord from "/discord.png";
 import twitter from "/twitter.png";
+import facebook from "/facebook.png";
 
 const Connect = () => {
   return (
@@ -35,11 +36,25 @@ const Connect = () => {
             />
           </a>
 
-          <a href="#" className="w-16 lg:w-24 flex flex-col">
+          <a
+            href="https://twitter.com/HomerGem"
+            className="w-16 lg:w-24 flex flex-col"
+          >
             <img
               className="h-fit rounded-lg"
               src={twitter}
               alt="Twitter Logo"
+            />
+          </a>
+          <a
+            href="https://www.facebook.com/vitalycarli"
+            target="_blank"
+            className="w-16 lg:w-24 flex flex-col"
+          >
+            <img
+              className="h-fit rounded-lg"
+              src={facebook}
+              alt="Discord Logo"
             />
           </a>
         </div>

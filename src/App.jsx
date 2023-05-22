@@ -1,20 +1,26 @@
-import Connect from "./components/Connect";
-import Content from "./components/Content";
-import Founders from "./components/Founders";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import NavBar from "./components/Navbar";
+import Home from "./components/Home";
+import Staking from "./components/Staking";
 import RoadMap from "./components/RoadMap";
+import Founders from "./components/Founders";
 
 function App() {
   return (
-    <>
+    <Router>
       <div>
-        <NavBar />
-        <Content />
-        <RoadMap />
-        <Founders />
-        <Connect />
+        <div>
+          <NavBar />
+        </div>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/roadmap" exact element={<RoadMap />} />
+          <Route path="/founders" exact element={<Founders />} />
+          <Route path="/staking" element={<Staking />} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 }
 export default App;
