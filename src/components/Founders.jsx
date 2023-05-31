@@ -12,20 +12,48 @@ const Founders = () => {
           FOUNDERS
         </h1>
         <div className="flex justify-center items-center gap-8 lg:gap-4 flex-col margin-0 lg:flex-row">
-          <div className="w-2/4 lg:w-1/4">
-            <img className="h-fit rounded-lg" src={founder1} alt="Logo" />
+          <div className="w-2/4 lg:w-1/4 relative">
+            <a href="#">
+              <img
+                src="/fb.svg"
+                className="w-10 lg:w-14  absolute right-0 bottom-0 transition hover:scale-105"
+                alt=""
+              />
+            </a>
+            <img className="w-full rounded-lg " src={founder1} alt="Logo" />
           </div>
 
-          <div className="w-2/4 lg:w-1/4">
-            <img className="h-fit rounded-lg" src={founder2} alt="Logo" />
+          <div className="w-2/4 lg:w-1/4 relative">
+            <a href="#">
+              <img
+                src="/fb.svg"
+                className="w-10 lg:w-14  absolute right-0 bottom-0 transition hover:scale-105"
+                alt=""
+              />
+            </a>
+            <img className="w-full rounded-lg " src={founder2} alt="Logo" />
           </div>
 
-          <div className="w-2/4 lg:w-1/4">
-            <img className="h-fit rounded-lg" src={founder3} alt="Logo" />
+          <div className="w-2/4 lg:w-1/4 relative">
+            <a href="#">
+              <img
+                src="/fb.svg"
+                className="w-10 lg:w-14  absolute right-0 bottom-0 transition hover:scale-105"
+                alt=""
+              />
+            </a>
+            <img className="w-full rounded-lg " src={founder3} alt="Logo" />
           </div>
 
-          <div className="w-2/4 lg:w-1/4">
-            <img className="h-fit rounded-lg" src={founder4} alt="Logo" />
+          <div className="w-2/4 lg:w-1/4 relative">
+            <a href="#">
+              <img
+                src="/fb.svg"
+                className="w-10 lg:w-14  absolute right-0 bottom-0 transition hover:scale-105"
+                alt=""
+              />
+            </a>
+            <img className="w-full rounded-lg " src={founder4} alt="Logo" />
           </div>
         </div>
       </div>

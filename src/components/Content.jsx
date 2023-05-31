@@ -1,16 +1,28 @@
 import img from "/Homer.svg";
-
+import React from "react";
+import { motion } from "framer-motion";
 function Content() {
   return (
     <>
       <div
         id="homepagecontent"
-        className="flex flex-col items-center lg:grid lg:grid-cols-2  pt-18"
+        className="flex flex-col items-center lg:grid lg:grid-cols-2 overflow-hidden pt-18"
       >
-        <div className="p-4 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="p-4 w-full"
+        >
           <img className="h-fit" src={img} alt="Logo" />
-        </div>
-        <div className="p-4 h-fit sm:ml-10">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 80 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          className="p-4 h-fit sm:ml-10"
+        >
           <p id="heading" className="font-bold text-3xl mt-16">
             INTRODUCTION
           </p>
@@ -44,7 +56,7 @@ function Content() {
               and at the same time earn on their growth in value.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
       <div className="tokenomics_container  px-8 py-8">
         <p id="heading" className="font-bold text-3xl tokenomicsheading">
@@ -74,11 +86,12 @@ function Content() {
           </p>{" "}
           <br />
           <p className="break-words">
-            To interact with HomerGem, the token address is :  &nbsp; 
+            To interact with HomerGem, the token address is : &nbsp;
             <span className="break-words font-bold">
-               0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488
+              0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488
             </span>
-            .
+            &nbsp;&nbsp;&nbsp;
+            <a href="https://pancakeswap.finance/swap"><span className="inline-block p-2 text-bold border-2 border-solid border-[#494866] rounded-md hover:bg-[#494866] hover:text-yellow-300  ">Buy HomerGem</span></a>
           </p>{" "}
           <br />
           <p>

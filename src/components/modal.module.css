@@ -1,0 +1,122 @@
+/* modal.module.css */
+.modal__wrap {
+  position: fixed;
+  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  z-index: 100;
+  overflow-x: hidden;
+  pointer-events: none;
+  opacity: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: opacity 250ms 400ms ease;
+  -webkit-transition: opacity 250ms 400ms ease;
+  -moz-transition: opacity 250ms 400ms ease;
+  -ms-transition: opacity 250ms 400ms ease;
+  -o-transition: opacity 250ms 400ms ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(45px);
+}
+@media only screen and (max-width: 767px) {
+  .modal__wrap {
+    height: 100%;
+  }
+}
+.visible {
+  pointer-events: auto;
+  opacity: 1;
+  transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  -moz-transition: all 300ms ease-in-out;
+  -ms-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+}
+.modal {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  display: block;
+  height: auto;
+  min-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  padding-bottom: 20px;
+  background-color: #fff;
+  align-self: center;
+  box-shadow: 0 12px 25px 0 rgba(199, 175, 189, 0.25);
+  opacity: 0;
+  transform: scale(0.6);
+  transform: scale(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24px 24px 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: none;
+  max-height: min-content;
+  flex-direction: column;
+  width: 100%;
+  transition: opacity 550ms 250ms ease, transform 300ms 250ms ease;
+  -webkit-transition: opacity 550ms 250ms ease, transform 300ms 250ms ease;
+  -moz-transition: opacity 550ms 250ms ease, transform 300ms 250ms ease;
+  -ms-transition: opacity 550ms 250ms ease, transform 300ms 250ms ease;
+  -o-transition: opacity 550ms 250ms ease, transform 300ms 250ms ease;
+  background: #1f1f1f;
+  backdrop-filter: blur(80px);
+  border-radius: 16px;
+}
+@media only screen and (min-width: 1000px) {
+  .modal {
+    max-width: 35rem;
+    width: 60vw;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .modal {
+    max-width: 65%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .modal {
+    padding: 25px 40px 0px 40px;
+    max-width: unset;
+    max-height: unset;
+    height: 100%;
+    margin: 0px;
+  }
+}
+.visible .modal {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 350ms 500ms ease, transform 350ms 500ms ease;
+  -webkit-transition: opacity 350ms 500ms ease, transform 350ms 500ms ease;
+  -moz-transition: opacity 350ms 500ms ease, transform 350ms 500ms ease;
+  -ms-transition: opacity 350ms 500ms ease, transform 350ms 500ms ease;
+  -o-transition: opacity 350ms 500ms ease, transform 350ms 500ms ease;
+}
+.modalTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 0rem 0px 5rem;
+}
+.title {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28.8px;
+}
+.closeicon {
+  cursor: pointer;
+}

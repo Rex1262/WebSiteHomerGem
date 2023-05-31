@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ethers } from "ethers";
 import StakingCard from "./staking-card";
+import Modal from "./Modal";
+import { motion } from "framer-motion";
 
 const Staking = () => {
   const [transactionState, setTransactionState] = useState(false);
@@ -18,11 +20,15 @@ const Staking = () => {
   const [stakesLoading, setStakesLoading] = useState(false);
   const [homergemLoading, setHomergemLoading] = useState(false);
 
+  // modal state
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState(<div></div>);
+
   const homerGemTestNet = "0x9478039D495E7C03350292D5174757A59a2802Ef";
   const homerGemMainNet = "0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488";
   const mainnetChainID = 56;
   const testnetChainId = 97;
-  const staking = false;
+  const staking = true;
   const [formValues, setFormValues] = useState({
     stakingPrice: "",
     duration: "",
@@ -49,22 +55,9 @@ const Staking = () => {
       HomerGemAbi.abi,
       signer
     );
-    // // const slot = ethers.utils.keccak256(ethers.utils.defaultAbiCoder.encode(['string'], ['stakingId']));
-    // // const result = await provider.getStorageAt(homerGemTestNet, slot);
-    // // const internalVariable = ethers.BigNumber.from(result).toString();
+ 
 
-    // console.log(internalVariable ,"stakingId");
 
-    // Function to calculate the storage slot
-    // Function to calculate the storage slot manually
-    function calculateStorageSlot(slotIndex) {
-      const storageSlot = ethers.utils.hexValue(slotIndex);
-      return storageSlot;
-    }
-
-    // Read the values of storage slots
-
-    console.log(homergem);
     const _balance = await homergem.balanceOf(userAddress);
     // setBalance(_balance);
     const eth_balance = ethers.utils.formatEther(_balance);
@@ -97,7 +90,6 @@ const Staking = () => {
       setAccount(accounts[0]);
       loadContract(signer, accounts[0], _provider);
     }
-    console.log(_chainID);
     setChainId(_chainID);
     window.ethereum.on("chainChanged", (chainId) => {
       window.location.reload();
@@ -118,14 +110,39 @@ const Staking = () => {
     } else {
       if (!account) {
         toast.error("Please connect your wallet with Binance Smart Chain");
+        setStakesLoading(false);
       } else {
         try {
+          setModalContent(
+            <div className="text-[#f6e58d] text-lg p-6 flex flex-col gap-6 justify-center items-center">
+              <div role="status" className="">
+                <svg
+                  aria-hidden="true"
+                  className="inline w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-[#f6e58d]"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+                <span className="sr-only">Loading...</span>
+              </div>
+              <h2>GETTING YOUR STAKES IN PROGRESS</h2>
+            </div>
+          );
+          setShowModal(true);
           setTransactionState(true);
           for (let i = 1; i <= stakingId; i++) {
             const userStake = await homerGem.staked(i);
             const staker = userStake.stakerAddress;
             if (staker.toLowerCase() == account.toLowerCase()) {
-              console.log("Yes youre are staker");
               const stakeEndTime = Number(userStake.stakingEnd);
               const date = new Date(stakeEndTime * 1000);
               const minutes = date.getMinutes();
@@ -148,17 +165,43 @@ const Staking = () => {
             console.log(userStakes);
           }
           setUserStakes(stakeArry);
-          // const userStake = await homerGem.staked('1')
-          // console.log(userStake);
+     
           setTransactionState(false);
           console.log("In the try");
 
           setStakesLoading(false);
+          setModalContent(
+            <div className="text-[#f6e58d] text-lg p-6 flex flex-col gap-6 justify-center items-center">
+              <div role="status" className="">
+                <svg
+                  aria-hidden="true"
+                  className="inline w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-[#f6e58d]"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+                <span className="sr-only">Loading...</span>
+              </div>
+              <h2>NO STAKINGS AVAILABLE</h2>
+            </div>
+          );
+          setTimeout(() => {
+            setShowModal(false);
+          }, 3000);
         } catch (error) {
           console.log("In the catch");
           setTransactionState(false);
-          // console.log(error.data.message);
-          // toast.error(error.data);
+          setShowModal(false);
+        
         }
       }
     }
@@ -175,22 +218,59 @@ const Staking = () => {
         setHomergemLoading(false);
       } else {
         try {
+          setModalContent(
+            <div className="text-[#f6e58d] text-lg p-6 flex flex-col gap-6 justify-center items-center">
+              <div role="status" className="">
+                <svg
+                  aria-hidden="true"
+                  className="inline w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-[#f6e58d]"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+                <span className="sr-only">Loading...</span>
+              </div>
+              <h2>STAKING IN PROGRESS</h2>
+            </div>
+          );
+          setShowModal(true);
           setTransactionState(true);
-          await (await homerGem.approve(homerGemTestNet, amount)).wait();
+          await (await homerGem.approve(homerGemMainNet, amount)).wait();
           await (await homerGem.stakeToken(amount, days)).wait();
           setTransactionState(false);
           const stakedAmount = ethers.utils.formatEther(amount);
+          setModalContent(
+            <div className="text-[#f6e58d] text-lg p-6 flex flex-col gap-6 justify-center items-center">
+              <div role="status" className="">
+                <img className="inline w-12 h-12" src="/success.png" alt="" />
+              </div>
+              <h2>Congrats you succussfully staked ${stakedAmount} HomerGem</h2>
+            </div>
+          );
           toast.success(
             `Congrats you succussfully staked ${stakedAmount} HomerGem`
           );
           console.log("In stake try");
+
           setHomergemLoading(false);
+          setTimeout(() => {
+            setShowModal(false);
+          }, 3000);
         } catch (error) {
           setHomergemLoading(false);
           setTransactionState(false);
           toast.error("Transaction Error");
-          // console.log(error.error.data.message);
-          // let message = await error.data.message.toString();
+          setShowModal(false);
+          
         }
       }
     }
@@ -203,11 +283,38 @@ const Staking = () => {
     } else {
       try {
         setTransactionState(true);
+        setModalContent(
+          <div className="text-[#f6e58d] text-lg p-6 flex flex-col gap-6 justify-center items-center">
+            <div role="status" className="">
+              <svg
+                aria-hidden="true"
+                className="inline w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-[#f6e58d]"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                  fill="currentFill"
+                />
+              </svg>
+              <span className="sr-only">Loading...</span>
+            </div>
+            <h2>GETTING REWARDS IN PROGRESS</h2>
+          </div>
+        );
+        setShowModal(true);
         await (await homerGem.unstakeAndClaimRewards(stakedId)).wait();
         setTransactionState(false);
+        setShowModal(false);
         toast("Congratulations! You have received your reward successfully");
       } catch (error) {
         setTransactionState(false);
+        setShowModal(false);
         toast(error.data);
       }
     }
@@ -235,8 +342,6 @@ const Staking = () => {
 
     // Perform any additional actions with formValues.stakingPrice and formValues.duration
     const parsedTokenQuantity = ethers.utils.parseEther(stakingPrice);
-    console.log("Staking Quantity:", parsedTokenQuantity);
-    console.log("Duration:", duration);
     stakeToken(parsedTokenQuantity.toString(), duration);
 
     // Clear the form
@@ -278,7 +383,12 @@ const Staking = () => {
         <div className="form text-[#f6e58d] w-full">
           <div className="p-2 sm:p-4 w-full">
             <div className="flex flex-col gap-5 sm:gap-10 lg:flex-row justify-around items-center staking-page-form-container">
-              <div className="mb-[98px] lg:mb-0 text-[#f6e58d] bg-[#1f1f1f] basis-2/4  borderStyle rounded-t-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 }}
+                className="mb-[98px] lg:mb-0 text-[#f6e58d] bg-[#1f1f1f] basis-2/4  borderStyle rounded-t-xl"
+              >
                 <div className="content border-8 border-[#f8ca00] gap-5 p-4 px-8 text-lg font-semibold flex flex-col rounded-t-lg">
                   <p>Dear Homergem Staking Community, </p>{" "}
                   <p>
@@ -304,9 +414,14 @@ const Staking = () => {
                     Together, we embark on a rewarding journey.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="mb-[98px] lg:mb-0 w-full sm:max-w-lg bg-[#1f1f1f] basis-2/4 borderStyle rounded-t-xl ">
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 }}
+                className="mb-[98px] lg:mb-0 w-full sm:max-w-lg bg-[#1f1f1f] basis-2/4 borderStyle rounded-t-xl "
+              >
                 <div className=" border-8 border-[#f8ca00] text-lg shadow p-4 px-8 rounded-t-lg">
                   <h2 className="text-xl font-semibold mb-4">
                     Staking To Earn Rewards
@@ -420,7 +535,7 @@ const Staking = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -449,6 +564,11 @@ const Staking = () => {
           ""
         )}
       </div>
+
+      {/* in progress modal */}
+      <Modal show={showModal} cross={true} onClose={() => setShowModal(false)}>
+        {modalContent}
+      </Modal>
     </div>
   );
 };
