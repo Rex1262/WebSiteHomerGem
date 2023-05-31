@@ -91,7 +91,11 @@ function Content() {
               0xE8FDAF419A086D3B48d7d8C23C22B0CE28a79488
             </span>
             &nbsp;&nbsp;&nbsp;
-            <a href="https://pancakeswap.finance/swap"><span className="inline-block p-2 text-bold border-2 border-solid border-[#494866] rounded-md hover:bg-[#494866] hover:text-yellow-300  ">Buy HomerGem</span></a>
+            <a href="https://pancakeswap.finance/swap">
+              <span className="inline-block p-2 text-bold border-4 text-[#f6e58d] border-solid border-[#3c3c3c] rounded-md hover:text-[#1f1f1f] bg-[#1f1f1f] hover:bg-[#f6e58d] font-semibold">
+                Buy HomerGem
+              </span>
+            </a>
           </p>{" "}
           <br />
           <p>
