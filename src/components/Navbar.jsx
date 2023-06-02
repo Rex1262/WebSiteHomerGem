@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, matchPath } from "react-router-dom";
 import img from "/Homer.svg";
 
 const Navbar = () => {
@@ -8,13 +8,15 @@ const Navbar = () => {
   const isLinkActive = (pathname) => {
     return location.pathname === pathname;
   };
-
   const [isOpen, setIsOpen] = useState(false);
+  const [dynamicRoute, setDynamicRoute] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-
+  useEffect(() => {
+    setDynamicRoute(location.pathname.includes("coin/"));
+  }, [location.pathname]);
   return (
     <nav
       id="navbar"
@@ -97,6 +99,17 @@ const Navbar = () => {
             } hover:border-transparent hover:bg-[#1E202B] rounded-full px-4 py-2`}
           >
             Staking
+          </Link>
+
+          <Link
+            to="/coinspage"
+            className={`w-full lg:w-auto text-center border border-[#1E202B] bg-transparent font-semibold text-[#141414] ${
+              isLinkActive("/coinspage") || dynamicRoute
+                ? "text-[#f6e58d] !bg-[#1E202B]"
+                : "hover:text-[#f6e58d]"
+            } hover:border-transparent hover:bg-[#1E202B] rounded-full px-4 py-2`}
+          >
+            Coins Chart
           </Link>
         </div>
         <div></div>
